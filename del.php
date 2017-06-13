@@ -6,17 +6,7 @@
  * and open the template in the editor.
  */
 
-        $servername="localhost";
-        $username="root";
-        $password="";
-        $dbname="ERecord";
-        
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-        if(!$conn)
-        {
-            die("Connection Failed! ".mysqli_connect_error());
-        }
-        
+        include 'dbconnect.php';
         $delid = $_GET['id'];
         $del = "delete from employee where Employee_id = $delid";
         

@@ -5,15 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "erecord";
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        if(!$conn) {
-            die("Connection failed: ".mysqli_connect_error());
-        }
+        include 'dbconnect.php';
 
         $ename = $_POST['Emp_Name'];
         $dob = $_POST['DOB'];
@@ -21,18 +13,21 @@
         $sal = $_POST['Salary'];
         $eby = $_POST['Entry_by'];
         $edate = $_POST['Entry_date'];
-
-        $sql = "insert into employee (Emp_Name, DOB, Gender, Salary, Entry_by, Entry_date) values ('$ename', '$dob', '$gen', '$sal', '$eby', '$edate')";
-
-        if($conn->query($sql) == TRUE) {
-            echo "New record created successfully<br>";
+        
+        if($_GET) {
+            $id = $_GET['id'];
         }
-        else
+
+        
+        if(isset($id))
         {
-            echo "Error: ".$sql."<br>".$conn->error;
+            $sql = "update employee set Emp_Name='$ename', DOB='$dob', Gender='$gen', Salary='$sal', Entry_by='$eby', Entry_date='$edate' where Employee_id=$id";
+        }
+        else {
+            $sql = "insert into employee (Emp_Name, DOB, Gender, Salary, Entry_by, Entry_date) values ('$ename', '$dob', '$gen', '$sal', '$eby', '$edate')";
         }
         
-        
+        mysqli_query($conn, $sql);
 
         $conn->close();
         

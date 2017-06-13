@@ -4,15 +4,8 @@
     </head>
     <body>
         <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "erecord";
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        if(!$conn) {
-            die("Connection failed: ".mysqli_connect_error());
-        }
+        include 'dbconnect.php';
+        
         $result =  mysqli_query($conn, "select * from employee");
         ?>
         <table>
@@ -49,7 +42,7 @@
                     <td><?php echo $eby ?></td>
                     <td><?php echo $edate ?></td>
                     <td><?php echo "<a href='del.php?id=$id'>delete</a>" ?></td>
-                    <td><?php echo "<a href='edit.php?id=$id'>edit</a>" ?></td>
+                    <td><?php echo "<a href='addedit.php?id=$id'>edit</a>" ?></td>
                 </tr>
                 <?php endwhile; ?>
             </tbody>

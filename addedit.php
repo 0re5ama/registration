@@ -1,30 +1,45 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Registration Form</title>
+        <title>Edit</title>
     </head>
+    
     <body>
-        <form action ="action.php" method ="POST">
-            Name: <input type="text" name="Emp_Name"><br>
-            Date of Birth: <input type="date" name="DOB"><br>
+        
+        <?php
+        
+        
+        if($_GET) {
+            $id = $_GET['id'];
+            include 'dbconnect.php';
+            $result = mysqli_query($conn, "select * from employee where Employee_id = $id");
+            $emp = mysqli_fetch_assoc($result);
+        }
+        
+        ?>
+        
+        <form action="action.php<?php if(isset($id))echo "/?id=".$id; ?>" method="POST">
+            Name: <input type="text" name="Emp_Name" <?php if(isset($id)) echo "value=".$emp['Emp_Name']; ?>><br>
+            Date of Birth: <input type="date" name="DOB" <?php if(isset($id)) echo "value=".$emp['DOB']; ?>><br>
             Gender: <br>
-            <input type="radio" name="Gender" value="m"> Male
-            <input type="radio" name="Gender" value="f"> Female
-            <input type="radio" name="Gender" value="t"> Other
+            <input type="radio" name="Gender" value="m" <?php if(isset($id) and $emp['Gender'] == 'm') echo "checked='checked'"; ?>> Male
+            <input type="radio" name="Gender" value="f" <?php if(isset($id) and $emp['Gender'] == 'f') echo "checked='checked'"; ?>> Female
+            <input type="radio" name="Gender" value="t" <?php if(isset($id) and $emp['Gender'] == 't') echo "checked='checked'"; ?>> Other
             <br>
-            Salary: <input type="text" name="Salary"><br>
-            Entry by: <input type="text" name="Entry_by"><br>
-            Entry date: <input type="date" name="Entry_date"><br>
-            <input type="submit">
+            Salary: <input type="text" name="Salary" <?php if(isset($id)) echo "value=".$emp['Salary']; ?>><br>
+            Entry by: <input type="text" name="Entry_by" <?php if(isset($id)) echo "value=".$emp['Entry_by']; ?>><br>
+            Entry date: <input type="date" name="Entry_date" <?php if(isset($id)) echo "value=".$emp['Entry_date']; ?>><br>
+            <?php
+            if(isset($id))
+            {
+                echo "<input type='submit' value='Update'>";
+            }
+            else
+                echo "<input type='submit' value='Submit'>";
+            ?>
         </form>
         <?php
         
         ?>
+        
     </body>
 </html>
